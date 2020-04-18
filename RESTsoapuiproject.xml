@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="7c2100f4-9be0-4c71-813d-2cef4e149f43" activeEnvironment="Default environment" name="REST Project 1" resourceRoot="${projectDir}" soapui-version="6.0.0" encryptionMode="Not encrypted" updated="3.2.0 2020-04-06T18:44:59Z" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:interface xsi:type="con:RestService" id="e776e496-a216-424d-952a-f4fc24335779" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://www.datasciencetoolkit.org" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <con:settings/>
+    <con:definitionCache type="TEXT" rootPart=""/>
+    <con:endpoints>
+      <con:endpoint>http://www.datasciencetoolkit.org</con:endpoint>
+    </con:endpoints>
+    <con:resource name="Xml" path="/maps/api/geocode/xml" id="ef7968ef-6a92-471a-b08b-162a7f32a43a">
+      <con:settings/>
+      <con:parameters>
+        <con:parameter>
+          <con:name>address</con:name>
+          <con:value/>
+          <con:style>QUERY</con:style>
+          <con:default/>
+          <con:path xsi:nil="true"/>
+          <con:description xsi:nil="true"/>
+        </con:parameter>
+      </con:parameters>
+      <con:method name="Xml" id="0d25727c-bb2b-44e9-a1ed-9d466692093b" method="GET">
+        <con:settings/>
+        <con:parameters/>
+        <con:representation type="RESPONSE">
+          <con:mediaType>application/xml; charset=UTF-8</con:mediaType>
+          <con:status>200</con:status>
+          <con:params/>
+          <con:element>GeocodeResponse</con:element>
+        </con:representation>
+        <con:request name="Request 1" id="f6ec6f62-6e84-441c-9443-e47a35352894" mediaType="application/json">
+          <con:settings/>
+          <con:endpoint>http://www.datasciencetoolkit.org</con:endpoint>
+          <con:request/>
+          <con:credentials>
+            <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+            <con:authType>No Authorization</con:authType>
+          </con:credentials>
+          <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+          <con:parameters/>
+          <con:parameterOrder>
+            <con:entry>address</con:entry>
+          </con:parameterOrder>
+        </con:request>
+      </con:method>
+    </con:resource>
+  </con:interface>
+  <con:testSuite id="0f4d825e-205a-4ddc-887c-e62882f92c3e" name="TestSuite 1">
+    <con:settings/>
+    <con:runType>SEQUENTIAL</con:runType>
+    <con:testCase id="67fcffd2-5168-4d44-9b53-4c4301269571" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true">
+      <con:settings/>
+      <con:testStep type="datasource" name="DataSource" id="33aa7fc4-d9f3-4725-aaf3-9242aea98f42">
+        <con:settings>
+          <con:setting id="com.eviware.soapui.impl.wsdl.teststeps.datasource.DataSourceContainer@prepared-properties">&lt;xml-fragment/></con:setting>
+        </con:settings>
+        <con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:dataSource type="Data Connection">
+            <con:configuration>
+              <Connection>MySQL Connection( Default environment )</Connection>
+              <query>Select city.Name as city_Name
+From city</query>
+              <fetchSize/>
+              <stored-procedure>false</stored-procedure>
+            </con:configuration>
+          </con:dataSource>
+          <con:property>city_Name</con:property>
+          <con:startRow>0</con:startRow>
+          <con:endRow>5</con:endRow>
+          <con:trimValues>false</con:trimValues>
+          <con:entitizeValues>false</con:entitizeValues>
+          <con:restartOnRun>false</con:restartOnRun>
+          <con:expandProperties>false</con:expandProperties>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="restrequest" name="Xml - Request 1" id="31b84b22-a64b-4e69-a725-afd6b7359e94">
+        <con:settings/>
+        <con:config service="http://www.datasciencetoolkit.org" resourcePath="/maps/api/geocode/xml" methodName="Xml" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <con:restRequest name="Xml - Request 1" id="f6ec6f62-6e84-441c-9443-e47a35352894" mediaType="application/json">
+            <con:settings>
+              <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+            </con:settings>
+            <con:endpoint>http://www.datasciencetoolkit.org</con:endpoint>
+            <con:request/>
+            <con:originalUri>http://www.datasciencetoolkit.org/maps/api/geocode/xml</con:originalUri>
+            <con:credentials>
+              <con:selectedAuthProfile>No Authorization</con:selectedAuthProfile>
+              <con:authType>No Authorization</con:authType>
+            </con:credentials>
+            <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+            <con:parameters>
+              <entry key="address" value="${DataSource#city_Name}" xmlns="http://eviware.com/soapui/config"/>
+            </con:parameters>
+            <con:parameterOrder>
+              <con:entry>address</con:entry>
+            </con:parameterOrder>
+          </con:restRequest>
+        </con:config>
+      </con:testStep>
+      <con:testStep type="datasourceloop" name="DataSource Loop" id="baed051b-af6a-47b6-a90a-8cf6467a3985">
+        <con:settings/>
+        <con:config>
+          <dataSourceStep>DataSource</dataSourceStep>
+          <targetStep>Xml - Request 1</targetStep>
+        </con:config>
+      </con:testStep>
+      <con:properties/>
+      <con:reportParameters/>
+      <con:breakPoints>
+        <con:testStepId>33aa7fc4-d9f3-4725-aaf3-9242aea98f42</con:testStepId>
+        <con:status>NONE</con:status>
+        <con:properties/>
+      </con:breakPoints>
+    </con:testCase>
+    <con:properties/>
+    <con:reportParameters/>
+  </con:testSuite>
+  <con:requirements/>
+  <con:properties/>
+  <con:wssContainer/>
+  <con:databaseConnectionContainer>
+    <con:databaseConnection>
+      <con:name>MySQL Connection</con:name>
+      <con:driver>com.mysql.jdbc.Driver</con:driver>
+      <con:connectionString>jdbc:mysql://127.0.0.1:3306/world?user=root&amp;password=PASS_VALUE</con:connectionString>
+      <con:password>p@ssword</con:password>
+      <con:connectionProperties/>
+    </con:databaseConnection>
+  </con:databaseConnectionContainer>
+  <con:jmsConnectionContainer/>
+  <con:oAuth2ProfileContainer/>
+  <con:oAuth1ProfileContainer/>
+  <con:reporting>
+    <con:reportTemplates/>
+    <con:xmlTemplates/>
+    <con:xmlTemplates/>
+    <con:parameters/>
+    <con:parameters/>
+  </con:reporting>
+  <con:reporting/>
+  <con:authRepository/>
+  <con:tags/>
+</con:soapui-project>
